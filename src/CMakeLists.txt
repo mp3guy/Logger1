@@ -8,6 +8,9 @@ find_package(Boost COMPONENTS filesystem REQUIRED)
 find_package(Boost COMPONENTS system REQUIRED)
 find_package(Boost COMPONENTS date_time REQUIRED)
 
+find_package(PkgConfig)
+pkg_check_modules(libusb-1.0 REQUIRED libusb-1.0)
+
 include(FindOpenNI.cmake)
 
 include(${QT_USE_FILE})
@@ -50,8 +53,10 @@ add_executable(Logger
 
 target_link_libraries(Logger
                       ${ZLIB_LIBRARY}
-                      ${Boost_LIBRARIES}
+                      ${Boost_SYSTEM_LIBRARIES}
+                      ${Boost_THREAD_LIBRARIES}
+                      ${Boost_FILESYSTEM_LIBRARIES}
                       ${OPENNI_LIBRARY}
                       ${OpenCV_LIBS} 
-                      ${QT_LIBRARIES})
-
+                      ${QT_LIBRARIES}
+                      ${libusb-1.0_LIBRARIES})
